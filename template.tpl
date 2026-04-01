@@ -42,12 +42,20 @@ ___TEMPLATE_PARAMETERS___
     "help": "When checked, Wisepops will only load after personalization_storage consent is granted."
   },
   {
-    "type": "TEXT",
-    "name": "loaderOrigin",
-    "displayName": "Loader URL (advanced, leave empty for production)",
-    "simpleValueType": true,
-    "defaultValue": "",
-    "help": "Override the loader origin for testing. Leave empty to use https://loader.wisepops.com. For staging, use your staging loader URL (must be HTTPS). For local testing, load the loader script manually via a Custom HTML tag instead."
+    "type": "GROUP",
+    "name": "advancedGroup",
+    "displayName": "Advanced Settings",
+    "groupStyle": "ZIPPY",
+    "subParams": [
+      {
+        "type": "TEXT",
+        "name": "loaderOrigin",
+        "displayName": "Loader URL Override",
+        "simpleValueType": true,
+        "defaultValue": "",
+        "help": "Override the loader origin. Leave empty for production (https://loader.wisepops.com). Must be HTTPS."
+      }
+    ]
   },
   {
     "type": "CHECKBOX",
