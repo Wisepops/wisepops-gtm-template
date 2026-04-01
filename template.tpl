@@ -23,30 +23,14 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
-    "type": "SELECT",
-    "name": "tagType",
-    "displayName": "Tag Type",
-    "macrosInSelect": false,
-    "selectItems": [
-      { "value": "setup", "displayValue": "Setup (load Wisepops)" },
-      { "value": "ecommerce", "displayValue": "Ecommerce Bridge (send data to Wisepops)" }
-    ],
-    "simpleValueType": true,
-    "defaultValue": "setup",
-    "help": "Use \u0027Setup\u0027 on an All Pages trigger to load Wisepops. Use \u0027Ecommerce Bridge\u0027 on ecommerce event triggers to pass cart/product/purchase data."
-  },
-  {
     "type": "TEXT",
     "name": "websiteHash",
     "displayName": "Website Hash",
     "simpleValueType": true,
-    "help": "Your Wisepops website hash. Find it in Wisepops → Settings → Setup Code.",
+    "help": "Your Wisepops website hash. Find it in Wisepops \u2192 Settings \u2192 Setup Code.",
     "valueValidators": [
       { "type": "NON_EMPTY" },
       { "type": "REGEX", "args": ["^[a-zA-Z0-9]{10}$"] }
-    ],
-    "enablingConditions": [
-      { "paramName": "tagType", "paramValue": "setup", "type": "EQUALS" }
     ]
   },
   {
@@ -55,10 +39,15 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Respect Consent Mode (personalization_storage)",
     "simpleValueType": true,
     "defaultValue": false,
-    "help": "When checked, Wisepops will only load after personalization_storage consent is granted.",
-    "enablingConditions": [
-      { "paramName": "tagType", "paramValue": "setup", "type": "EQUALS" }
-    ]
+    "help": "When checked, Wisepops will only load after personalization_storage consent is granted."
+  },
+  {
+    "type": "CHECKBOX",
+    "name": "enableEcommerce",
+    "displayName": "Enable ecommerce data bridging",
+    "simpleValueType": true,
+    "defaultValue": false,
+    "help": "When checked, the tag will also capture ecommerce events (product views, cart updates, purchases) and pass them to Wisepops for targeting and conversion tracking. Add ecommerce event triggers (view_item, add_to_cart, purchase, etc.) alongside your All Pages trigger."
   },
   {
     "type": "GROUP",
@@ -66,7 +55,7 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Ecommerce Settings",
     "groupStyle": "NO_ZIPPY",
     "enablingConditions": [
-      { "paramName": "tagType", "paramValue": "ecommerce", "type": "EQUALS" }
+      { "paramName": "enableEcommerce", "paramValue": true, "type": "EQUALS" }
     ],
     "subParams": [
       {
@@ -111,7 +100,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "purchaseGoalHash",
         "displayName": "Purchase Goal Hash",
         "simpleValueType": true,
-        "help": "The 32-character goal hash from Wisepops → Integrations → GTM.",
+        "help": "The 32-character goal hash from Wisepops \u2192 Integrations \u2192 GTM.",
         "enablingConditions": [
           { "paramName": "trackPurchases", "paramValue": true, "type": "EQUALS" }
         ]
@@ -176,9 +165,6 @@ ___TEMPLATE_PARAMETERS___
         "isUnique": false
       }
     ],
-    "enablingConditions": [
-      { "paramName": "tagType", "paramValue": "setup", "type": "EQUALS" }
-    ],
     "help": "Map your dataLayer variables to Wisepops customer properties for targeting."
   }
 ]
@@ -193,88 +179,74 @@ const copyFromWindow = require('copyFromWindow');
 const callInWindow = require('callInWindow');
 const isConsentGranted = require('isConsentGranted');
 const addConsentListener = require('addConsentListener');
-const makeTableMap = require('makeTableMap');
-const logToConsole = require('logToConsole');
 
-if (data.tagType === 'setup') {
-  // === SETUP TAG ===
-  // Create the wisepops argument queue (same as the inline setup snippet)
-  createArgumentsQueue('wisepops', 'wisepops.q');
+// Always create the wisepops queue (idempotent — safe to call on every trigger)
+createArgumentsQueue('wisepops', 'wisepops.q');
 
-  // Process customer data mappings
-  if (data.customerMappings && data.customerMappings.length > 0) {
-    var customerProps = {};
-    for (var i = 0; i < data.customerMappings.length; i++) {
-      var mapping = data.customerMappings[i];
-      var value = copyFromDataLayer(mapping.dataLayerKey);
-      if (value !== undefined && value !== null) {
-        // Support nested property paths like "customer.email"
-        var parts = mapping.wisepopsProperty.split('.');
-        var obj = customerProps;
-        for (var j = 0; j < parts.length - 1; j++) {
-          if (!obj[parts[j]]) obj[parts[j]] = {};
-          obj = obj[parts[j]];
-        }
-        obj[parts[parts.length - 1]] = value;
+// Always inject the loader script (injectScript with cacheToken is idempotent — won't load twice)
+var loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js';
+
+if (data.respectConsent) {
+  if (isConsentGranted('personalization_storage')) {
+    injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
+  } else {
+    addConsentListener('personalization_storage', function(consentType, granted) {
+      if (granted) {
+        injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
+      }
+    });
+  }
+} else {
+  injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
+}
+
+// Process customer data mappings
+if (data.customerMappings && data.customerMappings.length > 0) {
+  var customerProps = {};
+  for (var i = 0; i < data.customerMappings.length; i++) {
+    var mapping = data.customerMappings[i];
+    var value = copyFromDataLayer(mapping.dataLayerKey);
+    if (value !== undefined && value !== null) {
+      var parts = mapping.wisepopsProperty.split('.');
+      var obj = customerProps;
+      for (var j = 0; j < parts.length - 1; j++) {
+        if (!obj[parts[j]]) obj[parts[j]] = {};
+        obj = obj[parts[j]];
+      }
+      obj[parts[parts.length - 1]] = value;
+    }
+  }
+  if (Object.keys(customerProps).length > 0) {
+    callInWindow('wisepops', 'properties', customerProps);
+  }
+}
+
+// Ecommerce bridging (only if enabled and not on Shopify)
+if (data.enableEcommerce) {
+  var shopify = copyFromWindow('Shopify');
+  if (shopify === undefined) {
+    var eventName = copyFromDataLayer('event');
+    var ecommerce = copyFromDataLayer('ecommerce');
+
+    if (ecommerce) {
+      var format = data.ecommerceFormat;
+
+      if (format === 'ga4') {
+        handleGA4(eventName, ecommerce);
+      } else if (format === 'ua') {
+        handleUA(eventName, ecommerce);
+      } else if (format === 'custom') {
+        handleCustom(eventName, ecommerce);
       }
     }
-    if (Object.keys(customerProps).length > 0) {
-      callInWindow('wisepops', 'properties', customerProps);
-    }
   }
-
-  var loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js';
-
-  if (data.respectConsent) {
-    if (isConsentGranted('personalization_storage')) {
-      injectScript(loaderUrl, data.gtmOnSuccess, data.gtmOnFailure, 'wisepopsLoader');
-    } else {
-      addConsentListener('personalization_storage', function(consentType, granted) {
-        if (granted) {
-          injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
-        }
-      });
-      data.gtmOnSuccess();
-    }
-  } else {
-    injectScript(loaderUrl, data.gtmOnSuccess, data.gtmOnFailure, 'wisepopsLoader');
-  }
-
-} else if (data.tagType === 'ecommerce') {
-  // === ECOMMERCE BRIDGE TAG ===
-
-  // Shopify safeguard: skip if on Shopify (native integration handles ecommerce)
-  var shopify = copyFromWindow('Shopify');
-  if (shopify !== undefined) {
-    data.gtmOnSuccess();
-    return;
-  }
-
-  var eventName = copyFromDataLayer('event');
-  var ecommerce = copyFromDataLayer('ecommerce');
-
-  if (!ecommerce) {
-    data.gtmOnSuccess();
-    return;
-  }
-
-  var format = data.ecommerceFormat;
-
-  if (format === 'ga4') {
-    handleGA4(eventName, ecommerce);
-  } else if (format === 'ua') {
-    handleUA(eventName, ecommerce);
-  } else if (format === 'custom') {
-    handleCustom(eventName, ecommerce);
-  }
-
-  data.gtmOnSuccess();
 }
+
+data.gtmOnSuccess();
 
 function handleGA4(eventName, ecommerce) {
   var items = ecommerce.items || [];
 
-  // Product view
   if (eventName === 'view_item' && data.trackProducts && items.length > 0) {
     var item = items[0];
     callInWindow('wisepops', 'properties', {
@@ -289,7 +261,6 @@ function handleGA4(eventName, ecommerce) {
     }, {temporary: true});
   }
 
-  // Cart updates
   if ((eventName === 'add_to_cart' || eventName === 'remove_from_cart' || eventName === 'view_cart') && data.trackCart) {
     var cartItems = [];
     var totalQty = 0;
@@ -313,14 +284,12 @@ function handleGA4(eventName, ecommerce) {
     });
   }
 
-  // Purchase
   if (eventName === 'purchase' && data.trackPurchases && data.purchaseGoalHash) {
     callInWindow('wisepops', 'goal', data.purchaseGoalHash, {revenue: ecommerce.value});
   }
 }
 
 function handleUA(eventName, ecommerce) {
-  // Product view (UA uses ecommerce.detail.products)
   if (data.trackProducts && ecommerce.detail && ecommerce.detail.products && ecommerce.detail.products.length > 0) {
     var product = ecommerce.detail.products[0];
     callInWindow('wisepops', 'properties', {
@@ -335,7 +304,6 @@ function handleUA(eventName, ecommerce) {
     }, {temporary: true});
   }
 
-  // Cart (UA uses ecommerce.add.products or ecommerce.checkout)
   if (data.trackCart) {
     var uaProducts = null;
     if (ecommerce.add && ecommerce.add.products) {
@@ -370,7 +338,6 @@ function handleUA(eventName, ecommerce) {
     }
   }
 
-  // Purchase (UA uses ecommerce.purchase.actionField)
   if (data.trackPurchases && data.purchaseGoalHash && ecommerce.purchase && ecommerce.purchase.actionField) {
     var revenue = ecommerce.purchase.actionField.revenue;
     if (revenue !== undefined) {
@@ -387,7 +354,6 @@ function handleCustom(eventName, ecommerce) {
     if (mapping.eventName !== eventName) continue;
 
     if (mapping.action === 'product') {
-      // Try to find product data in ecommerce object
       var items = ecommerce.items || ecommerce.products ||
         (ecommerce.detail && ecommerce.detail.products) || [];
       if (items.length > 0) {
@@ -588,12 +554,12 @@ ___WEB_PERMISSIONS___
 ___TESTS___
 
 scenarios:
-- name: Setup tag injects Wisepops loader script
+- name: Tag injects Wisepops loader script
   code: |-
     const mockData = {
-      tagType: 'setup',
       websiteHash: 'SFX93yBSWR',
       respectConsent: false,
+      enableEcommerce: false,
       customerMappings: [],
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
@@ -602,43 +568,54 @@ scenarios:
     let injectedUrl;
     mock('injectScript', (url) => { injectedUrl = url; });
     mock('copyFromDataLayer', () => undefined);
+    mock('copyFromWindow', () => undefined);
 
     runCode(mockData);
 
     assertThat(injectedUrl).isEqualTo('https://loader.wisepops.com/h/SFX93yBSWR/loader.js');
 
-- name: Ecommerce bridge skips on Shopify sites
+- name: Ecommerce bridging skips on Shopify sites
   code: |-
     const mockData = {
-      tagType: 'ecommerce',
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: false,
+      enableEcommerce: true,
       ecommerceFormat: 'ga4',
       trackProducts: true,
       trackCart: true,
       trackPurchases: true,
       purchaseGoalHash: 'abc123',
+      customerMappings: [],
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
+    mock('createArgumentsQueue', () => {});
+    mock('injectScript', () => {});
     mock('copyFromWindow', (key) => key === 'Shopify' ? {} : undefined);
     mock('copyFromDataLayer', () => undefined);
-    let wisepopsCalled = false;
-    mock('callInWindow', () => { wisepopsCalled = true; });
+    let propertiesCalled = false;
+    mock('callInWindow', () => { propertiesCalled = true; });
 
     runCode(mockData);
 
-    assertThat(wisepopsCalled).isFalse();
+    assertThat(propertiesCalled).isFalse();
 
 - name: GA4 view_item sets product properties
   code: |-
     const mockData = {
-      tagType: 'ecommerce',
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: false,
+      enableEcommerce: true,
       ecommerceFormat: 'ga4',
       trackProducts: true,
       trackCart: true,
       trackPurchases: false,
+      customerMappings: [],
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
+    mock('createArgumentsQueue', () => {});
+    mock('injectScript', () => {});
     mock('copyFromWindow', () => undefined);
     mock('copyFromDataLayer', (key) => {
       if (key === 'event') return 'view_item';
@@ -659,15 +636,20 @@ scenarios:
 - name: GA4 purchase fires goal with revenue
   code: |-
     const mockData = {
-      tagType: 'ecommerce',
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: false,
+      enableEcommerce: true,
       ecommerceFormat: 'ga4',
       trackProducts: false,
       trackCart: false,
       trackPurchases: true,
       purchaseGoalHash: 'goalHash123456789012345678901234',
+      customerMappings: [],
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
+    mock('createArgumentsQueue', () => {});
+    mock('injectScript', () => {});
     mock('copyFromWindow', () => undefined);
     mock('copyFromDataLayer', (key) => {
       if (key === 'event') return 'purchase';
@@ -687,7 +669,9 @@ scenarios:
 ___NOTES___
 
 Wisepops GTM Community Template
-- Setup tag: creates wisepops queue + injects loader script
-- Ecommerce bridge: maps GA4/UA/Custom ecommerce events to wisepops properties and goals
+- Single tag: always loads Wisepops + optionally bridges ecommerce data
+- Customer adds one tag with All Pages trigger + ecommerce event triggers
+- Ecommerce bridge: maps GA4/UA/Custom ecommerce events to Wisepops properties and goals
 - Consent Mode v2: respects personalization_storage when enabled
-- Shopify safeguard: ecommerce bridge is a no-op on Shopify sites
+- Shopify safeguard: ecommerce bridging is a no-op on Shopify sites (native integration takes priority)
+- injectScript with cacheToken is idempotent — safe to fire on every trigger without loading twice

@@ -4,32 +4,33 @@ Google Tag Manager community template for [Wisepops](https://wisepops.com) — p
 
 ## Features
 
-- **Setup Tag**: One-click Wisepops installation via GTM (no manual code pasting)
-- **Ecommerce Bridge**: Automatically capture cart, product, and purchase data from your existing ecommerce tracking
+- **One tag does everything**: Loads Wisepops and optionally bridges ecommerce data — no need for multiple tags
+- **Ecommerce data bridging**: Capture cart, product, and purchase data from your existing ecommerce tracking
 - **Three format presets**: GA4 Standard, UA Enhanced Ecommerce, or Custom event mapping
 - **Consent Mode v2**: Respects `personalization_storage` consent before loading
 - **Customer Data Mapping**: Map your dataLayer variables to Wisepops customer properties for targeting
-- **Shopify Safeguard**: Automatically disabled on Shopify sites (where the native integration handles ecommerce)
+- **Shopify Safeguard**: Ecommerce bridging automatically disabled on Shopify sites (native integration takes priority)
 
 ## Setup
 
-### 1. Add the Setup Tag
+### 1. Add the Wisepops tag
 
-1. In GTM, go to **Tags** → **New** → **Tag Configuration** → **Community Template Gallery**
+1. In GTM, go to **Tags** > **New** > **Tag Configuration** > **Community Template Gallery**
 2. Search for "Wisepops" and add the template
-3. Select **Tag Type: Setup**
-4. Enter your **Website Hash** (find it in Wisepops → Settings → Setup Code)
-5. Set trigger to **All Pages**
+3. Enter your **Website Hash** (find it in Wisepops > Settings > Setup Code)
 
-### 2. Add the Ecommerce Bridge Tag (optional)
+### 2. Configure triggers
 
-1. Add another Wisepops tag
-2. Select **Tag Type: Ecommerce Bridge**
-3. Choose your **Ecommerce Format** (GA4, UA, or Custom)
-4. Enter your **Purchase Goal Hash** (find it in Wisepops → Integrations → GTM)
-5. Set triggers for your ecommerce events (e.g., `view_item`, `add_to_cart`, `purchase`)
+- Add an **All Pages** trigger (loads Wisepops on every page)
+- If ecommerce is enabled, also add triggers for your ecommerce events (e.g., `view_item`, `add_to_cart`, `purchase`)
 
-### 3. Publish your GTM container
+### 3. Enable ecommerce (optional)
+
+1. Check **Enable ecommerce data bridging**
+2. Choose your **Ecommerce Format** (GA4, UA, or Custom)
+3. Enter your **Purchase Goal Hash** (find it in Wisepops > Integrations > GTM)
+
+### 4. Publish your GTM container
 
 ## Ecommerce Events Supported
 
