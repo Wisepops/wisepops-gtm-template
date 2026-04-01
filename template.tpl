@@ -47,7 +47,7 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Loader URL (advanced, leave empty for production)",
     "simpleValueType": true,
     "defaultValue": "",
-    "help": "Override the loader origin for testing. Leave empty to use https://loader.wisepops.com. For local testing, use http://loader.wisepops.localhost:3100."
+    "help": "Override the loader origin for testing. Leave empty to use https://loader.wisepops.com. For staging, use your staging loader URL (must be HTTPS). For local testing, load the loader script manually via a Custom HTML tag instead."
   },
   {
     "type": "CHECKBOX",
@@ -496,10 +496,6 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "https://loader.wisepops.com/*"
-              },
-              {
-                "type": 1,
-                "string": "http://loader.wisepops.localhost/*"
               }
             ]
           }
