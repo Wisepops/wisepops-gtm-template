@@ -485,9 +485,8 @@ ___WEB_PERMISSIONS___
             "type": 2,
             "listItem": [
               {
-                "type": 3,
-                "mapKey": [{ "type": 1, "string": "url" }],
-                "mapValue": [{ "type": 1, "string": "https://loader.wisepops.com/*" }]
+                "type": 1,
+                "string": "https://loader.wisepops.com/*"
               }
             ]
           }
