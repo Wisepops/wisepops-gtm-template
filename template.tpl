@@ -45,7 +45,7 @@ ___TEMPLATE_PARAMETERS___
     "type": "GROUP",
     "name": "advancedGroup",
     "displayName": "Advanced Settings",
-    "groupStyle": "ZIPPY",
+    "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
         "type": "TEXT",
