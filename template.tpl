@@ -155,7 +155,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "PARAM_TABLE",
     "name": "customerMappings",
-    "displayName": "Customer Data Mapping (optional)",
+    "displayName": "Data Mapping (optional)",
     "paramTableColumns": [
       {
         "param": { "type": "TEXT", "name": "dataLayerKey", "displayName": "DataLayer Variable Name", "simpleValueType": true },
@@ -174,14 +174,25 @@ ___TEMPLATE_PARAMETERS___
             { "value": "customer.accepts_marketing", "displayValue": "customer.accepts_marketing" },
             { "value": "customer.orders_count", "displayValue": "customer.orders_count" },
             { "value": "customer.total_spent", "displayValue": "customer.total_spent" },
-            { "value": "customer.tags", "displayValue": "customer.tags" }
+            { "value": "customer.tags", "displayValue": "customer.tags" },
+            { "value": "cart.total_price", "displayValue": "cart.total_price" },
+            { "value": "cart.item_count", "displayValue": "cart.item_count" },
+            { "value": "cart.currency", "displayValue": "cart.currency" },
+            { "value": "cart.discount_code", "displayValue": "cart.discount_code" },
+            { "value": "product.id", "displayValue": "product.id" },
+            { "value": "product.name", "displayValue": "product.name" },
+            { "value": "product.price", "displayValue": "product.price" },
+            { "value": "product.variant", "displayValue": "product.variant" },
+            { "value": "product.brand", "displayValue": "product.brand" },
+            { "value": "product.category", "displayValue": "product.category" },
+            { "value": "product.tags", "displayValue": "product.tags" }
           ],
           "simpleValueType": true
         },
         "isUnique": false
       }
     ],
-    "help": "Map your dataLayer variables to Wisepops customer properties for targeting."
+    "help": "Map your dataLayer variables to Wisepops properties for targeting. Useful for customer data (email, login status) or for sites that push cart/product data as flat dataLayer variables."
   }
 ]
 
