@@ -179,6 +179,7 @@ const copyFromWindow = require('copyFromWindow');
 const callInWindow = require('callInWindow');
 const isConsentGranted = require('isConsentGranted');
 const addConsentListener = require('addConsentListener');
+const Object = require('Object');
 
 // Always create the wisepops queue (idempotent — safe to call on every trigger)
 createArgumentsQueue('wisepops', 'wisepops.q');
