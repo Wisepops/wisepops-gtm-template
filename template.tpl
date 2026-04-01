@@ -42,6 +42,14 @@ ___TEMPLATE_PARAMETERS___
     "help": "When checked, Wisepops will only load after personalization_storage consent is granted."
   },
   {
+    "type": "TEXT",
+    "name": "loaderOrigin",
+    "displayName": "Loader URL (advanced, leave empty for production)",
+    "simpleValueType": true,
+    "defaultValue": "",
+    "help": "Override the loader origin for testing. Leave empty to use https://loader.wisepops.com. For local testing, use http://loader.wisepops.localhost:3100."
+  },
+  {
     "type": "CHECKBOX",
     "name": "enableEcommerce",
     "displayName": "Enable ecommerce data bridging",
@@ -185,7 +193,8 @@ const Object = require('Object');
 createArgumentsQueue('wisepops', 'wisepops.q');
 
 // Always inject the loader script (injectScript with cacheToken is idempotent — won't load twice)
-var loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js';
+var origin = data.loaderOrigin || 'https://loader.wisepops.com';
+var loaderUrl = origin + '/h/' + data.websiteHash + '/loader.js';
 
 if (data.respectConsent) {
   if (isConsentGranted('personalization_storage')) {
@@ -487,6 +496,10 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "https://loader.wisepops.com/*"
+              },
+              {
+                "type": 1,
+                "string": "http://loader.wisepops.localhost/*"
               }
             ]
           }
