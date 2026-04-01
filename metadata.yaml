@@ -1,5 +1,5 @@
 homepage: "https://wisepops.com"
 documentation: "https://support.wisepops.com/article/gtm-integration"
 versions:
-  - sha: 214060eda210b46a4abb4619f82c551526305c74
+  - sha: 2eedeb085094bf9c679206ff09147a7775298743
     changeNotes: "Initial release: setup tag with consent mode v2, ecommerce bridge (GA4/UA/Custom), customer data mapping"
