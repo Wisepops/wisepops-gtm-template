@@ -363,7 +363,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', () => undefined);
@@ -389,7 +393,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', () => undefined);
@@ -418,7 +426,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', () => undefined);
@@ -448,7 +460,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', () => undefined);
@@ -482,7 +498,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', (key) => key === 'event' ? 'purchase' : undefined);
@@ -508,7 +528,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', (key, version) => {
@@ -540,7 +564,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', (key) => {
@@ -572,7 +600,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', (key) => key === 'event' ? 'order_complete' : undefined);
@@ -602,7 +634,11 @@ scenarios:
     };
     const queueCalls = [];
     mock('createArgumentsQueue', () => function() {
-      queueCalls.push(Array.prototype.slice.call(arguments));
+      const args = [];
+      for (let i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      queueCalls.push(args);
     });
     mock('injectScript', () => {});
     mock('copyFromDataLayer', (key) => key === 'event' ? 'something_else' : undefined);
