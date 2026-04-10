@@ -4,53 +4,56 @@ Google Tag Manager community template for [Wisepops](https://wisepops.com) — p
 
 ## Features
 
-- **One tag does everything**: Loads Wisepops and optionally bridges ecommerce data — no need for multiple tags
-- **Ecommerce data bridging**: Capture cart, product, and purchase data from your existing ecommerce tracking
-- **Three format presets**: GA4 Standard, UA Enhanced Ecommerce, or Custom event mapping
-- **Consent Mode v2**: Respects `personalization_storage` consent before loading
-- **Customer Data Mapping**: Map your dataLayer variables to Wisepops customer properties for targeting
-- **Shopify Safeguard**: Ecommerce bridging automatically disabled on Shopify sites (native integration takes priority)
+- **One tag loads Wisepops** — idempotent, safe to attach to multiple triggers
+- **Conversion goal tracking** — GA4 `purchase` event or custom event with a user-configurable revenue variable
+- **GTM Consent Mode v2** — respects `personalization_storage` using Wisepops' documented default-denied / grant-on-consent API
 
 ## Setup
 
 ### 1. Add the Wisepops tag
 
-1. In GTM, go to **Tags** > **New** > **Tag Configuration** > **Community Template Gallery**
+1. In GTM, go to **Tags** → **New** → **Tag Configuration** → **Community Template Gallery**
 2. Search for "Wisepops" and add the template
-3. Enter your **Website Hash** (find it in Wisepops > Settings > Setup Code)
+3. Enter your **Website Hash** (find it in Wisepops → Integrations → Google Tag Manager)
+4. Set the trigger to **All Pages**
 
-### 2. Configure triggers
+### 2. (Optional) Track conversions
 
-- Add an **All Pages** trigger (loads Wisepops on every page)
-- If ecommerce is enabled, also add triggers for your ecommerce events (e.g., `view_item`, `add_to_cart`, `purchase`)
+1. Check **Track a conversion goal**
+2. Paste the **Goal Hash** from Wisepops → Integrations → Google Tag Manager
+3. Choose an **Event format**:
+   - **GA4 Ecommerce (purchase)** — no extra config; reads revenue from `ecommerce.value` on the `purchase` event
+   - **Custom event** — enter your event name (e.g. `order_complete`) and reference a Data Layer Variable for revenue, e.g. `{{DLV - Revenue}}`
+4. In addition to the All Pages trigger, attach your purchase (or equivalent) event trigger to the tag
 
-### 3. Enable ecommerce (optional)
+### 3. (Optional) Respect Consent Mode
 
-1. Check **Enable ecommerce data bridging**
-2. Choose your **Ecommerce Format** (GA4, UA, or Custom)
-3. Enter your **Purchase Goal Hash** (find it in Wisepops > Integrations > GTM)
+Check **Respect GTM Consent Mode**. When enabled, Wisepops loads immediately but uses session-only cookies until `personalization_storage` is granted. When consent is granted (either on page load or later via a CMP interaction), Wisepops switches to persistent cookies.
 
 ### 4. Publish your GTM container
 
-## Ecommerce Events Supported
+## GA4 Ecommerce Format
 
-### GA4 Standard
+The GA4 format fires the goal when a `purchase` event is pushed to the dataLayer. Revenue comes from `ecommerce.value`:
 
-| Event | Wisepops Action |
-|---|---|
-| `view_item` | Sets product properties (id, name, price, variant, brand, category) |
-| `add_to_cart` | Updates cart properties (total, items, currency) |
-| `remove_from_cart` | Updates cart properties |
-| `view_cart` | Updates cart properties |
-| `purchase` | Tracks conversion goal with revenue |
+```js
+dataLayer.push({
+  event: 'purchase',
+  ecommerce: {
+    transaction_id: 'T_12345',
+    value: 99.99,
+    currency: 'EUR',
+    items: [...]
+  }
+});
+```
 
-### UA Enhanced Ecommerce
+## Custom Format
 
-| Event | Wisepops Action |
-|---|---|
-| `detail` | Sets product properties |
-| `add` / `checkout` | Updates cart properties |
-| `purchase` | Tracks conversion goal with revenue |
+Use this format if your site does not use GA4 ecommerce (including UA Enhanced Ecommerce legacy sites). You supply:
+
+- **Event name** — the dataLayer event that fires the goal, e.g. `order_complete`
+- **Revenue value** (optional) — a GTM Data Layer Variable reference like `{{DLV - Revenue}}`. Create a DLV pointing at whatever path in your dataLayer holds the revenue (e.g. `ecommerce.purchase.actionField.revenue` or `orderTotal`), then reference it here.
 
 ## License
 

@@ -20,7 +20,7 @@ ___INFO___
     "displayName": "Wisepops",
     "thumbnail": "data:image/png;base64,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"
   },
-  "description": "Install Wisepops on your website and optionally bridge ecommerce data (GA4, UA, or custom) for product targeting, cart-based popups, and purchase conversion tracking.",
+  "description": "Install Wisepops on your website and optionally track conversion goals (GA4 ecommerce or custom events) with revenue attribution.",
   "containerContexts": [
     "WEB"
   ]
@@ -35,7 +35,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "websiteHash",
     "displayName": "Website Hash",
     "simpleValueType": true,
-    "help": "Your Wisepops website hash. Find it in Wisepops \u2192 Settings \u2192 Setup Code.",
+    "help": "Your Wisepops website hash. Find it in Wisepops \u2192 Integrations \u2192 Google Tag Manager.",
     "valueValidators": [
       { "type": "NON_EMPTY" },
       { "type": "REGEX", "args": ["^[a-zA-Z0-9]{10}$"] }
@@ -44,147 +44,74 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "CHECKBOX",
     "name": "respectConsent",
-    "displayName": "Respect Consent Mode (personalization_storage)",
+    "displayName": "Respect GTM Consent Mode",
     "simpleValueType": true,
     "defaultValue": false,
-    "help": "When checked, Wisepops will only load after personalization_storage consent is granted."
+    "help": "When checked, Wisepops loads with default-denied consent (session-only cookies) and switches to persistent cookies once personalization_storage is granted. The script always loads \u2014 only the cookie persistence changes."
   },
   {
     "type": "CHECKBOX",
-    "name": "enableEcommerce",
-    "displayName": "Enable ecommerce data bridging",
+    "name": "enableGoalTracking",
+    "displayName": "Track a conversion goal",
     "simpleValueType": true,
     "defaultValue": false,
-    "help": "When checked, the tag will also capture ecommerce events (product views, cart updates, purchases) and pass them to Wisepops for targeting and conversion tracking. Add ecommerce event triggers (view_item, add_to_cart, purchase, etc.) alongside your All Pages trigger."
+    "help": "When checked, the tag will fire a Wisepops conversion goal on the configured event. Attach this tag to your purchase (or equivalent) trigger in addition to your All Pages trigger."
   },
   {
     "type": "GROUP",
-    "name": "ecommerceGroup",
-    "displayName": "Ecommerce Settings",
+    "name": "goalGroup",
+    "displayName": "Goal tracking settings",
     "groupStyle": "NO_ZIPPY",
     "enablingConditions": [
-      { "paramName": "enableEcommerce", "paramValue": true, "type": "EQUALS" }
+      { "paramName": "enableGoalTracking", "paramValue": true, "type": "EQUALS" }
     ],
     "subParams": [
       {
         "type": "SELECT",
-        "name": "ecommerceFormat",
-        "displayName": "Ecommerce Format",
+        "name": "goalFormat",
+        "displayName": "Event format",
         "macrosInSelect": false,
         "selectItems": [
-          { "value": "ga4", "displayValue": "GA4 Standard Ecommerce" },
-          { "value": "ua", "displayValue": "UA Enhanced Ecommerce (legacy)" },
-          { "value": "custom", "displayValue": "Custom" }
+          { "value": "ga4", "displayValue": "GA4 Ecommerce (purchase)" },
+          { "value": "custom", "displayValue": "Custom event" }
         ],
         "simpleValueType": true,
         "defaultValue": "ga4"
       },
       {
-        "type": "CHECKBOX",
-        "name": "trackProducts",
-        "displayName": "Track product views",
-        "simpleValueType": true,
-        "defaultValue": true,
-        "help": "Set product properties when a view_item (GA4) or detail (UA) event fires."
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "trackCart",
-        "displayName": "Track cart updates",
-        "simpleValueType": true,
-        "defaultValue": true,
-        "help": "Set cart properties when add_to_cart, remove_from_cart, or view_cart events fire."
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "trackPurchases",
-        "displayName": "Track purchases as goals",
-        "simpleValueType": true,
-        "defaultValue": true,
-        "help": "Track a Wisepops conversion goal with revenue when a purchase event fires."
-      },
-      {
         "type": "TEXT",
         "name": "purchaseGoalHash",
-        "displayName": "Purchase Goal Hash",
+        "displayName": "Goal Hash",
         "simpleValueType": true,
-        "help": "The 32-character goal hash from Wisepops \u2192 Integrations \u2192 GTM.",
-        "enablingConditions": [
-          { "paramName": "trackPurchases", "paramValue": true, "type": "EQUALS" }
+        "help": "The 32-character goal hash from Wisepops \u2192 Integrations \u2192 Google Tag Manager.",
+        "valueValidators": [
+          { "type": "NON_EMPTY" }
         ]
       },
       {
-        "type": "PARAM_TABLE",
-        "name": "customEvents",
-        "displayName": "Custom Event Mapping",
-        "paramTableColumns": [
-          {
-            "param": { "type": "TEXT", "name": "eventName", "displayName": "Event Name", "simpleValueType": true },
-            "isUnique": false
-          },
-          {
-            "param": {
-              "type": "SELECT",
-              "name": "action",
-              "displayName": "Wisepops Action",
-              "selectItems": [
-                { "value": "product", "displayValue": "Product View" },
-                { "value": "cart", "displayValue": "Cart Update" },
-                { "value": "purchase", "displayValue": "Purchase Goal" }
-              ],
-              "simpleValueType": true
-            },
-            "isUnique": false
-          }
-        ],
+        "type": "TEXT",
+        "name": "customEventName",
+        "displayName": "Event name",
+        "simpleValueType": true,
+        "help": "The dataLayer event name that triggers the goal (e.g. order_complete).",
         "enablingConditions": [
-          { "paramName": "ecommerceFormat", "paramValue": "custom", "type": "EQUALS" }
+          { "paramName": "goalFormat", "paramValue": "custom", "type": "EQUALS" }
         ],
-        "help": "Map your custom dataLayer event names to Wisepops actions."
-      }
-    ]
-  },
-  {
-    "type": "PARAM_TABLE",
-    "name": "customerMappings",
-    "displayName": "Data Mapping (optional)",
-    "paramTableColumns": [
-      {
-        "param": { "type": "TEXT", "name": "dataLayerKey", "displayName": "DataLayer Variable Name", "simpleValueType": true },
-        "isUnique": false
+        "valueValidators": [
+          { "type": "NON_EMPTY" }
+        ]
       },
       {
-        "param": {
-          "type": "SELECT",
-          "name": "wisepopsProperty",
-          "displayName": "Wisepops Property",
-          "selectItems": [
-            { "value": "customer.email", "displayValue": "customer.email" },
-            { "value": "customer.first_name", "displayValue": "customer.first_name" },
-            { "value": "customer.last_name", "displayValue": "customer.last_name" },
-            { "value": "customer.is_logged_in", "displayValue": "customer.is_logged_in" },
-            { "value": "customer.accepts_marketing", "displayValue": "customer.accepts_marketing" },
-            { "value": "customer.orders_count", "displayValue": "customer.orders_count" },
-            { "value": "customer.total_spent", "displayValue": "customer.total_spent" },
-            { "value": "customer.tags", "displayValue": "customer.tags" },
-            { "value": "cart.total_price", "displayValue": "cart.total_price" },
-            { "value": "cart.item_count", "displayValue": "cart.item_count" },
-            { "value": "cart.currency", "displayValue": "cart.currency" },
-            { "value": "cart.discount_code", "displayValue": "cart.discount_code" },
-            { "value": "product.id", "displayValue": "product.id" },
-            { "value": "product.name", "displayValue": "product.name" },
-            { "value": "product.price", "displayValue": "product.price" },
-            { "value": "product.variant", "displayValue": "product.variant" },
-            { "value": "product.brand", "displayValue": "product.brand" },
-            { "value": "product.category", "displayValue": "product.category" },
-            { "value": "product.tags", "displayValue": "product.tags" }
-          ],
-          "simpleValueType": true
-        },
-        "isUnique": false
+        "type": "TEXT",
+        "name": "customRevenueValue",
+        "displayName": "Revenue value (optional)",
+        "simpleValueType": true,
+        "help": "Reference a GTM Data Layer Variable here, e.g. {{DLV - Revenue}}. Leave empty to fire the goal without revenue.",
+        "enablingConditions": [
+          { "paramName": "goalFormat", "paramValue": "custom", "type": "EQUALS" }
+        ]
       }
-    ],
-    "help": "Map your dataLayer variables to Wisepops properties for targeting. Useful for customer data (email, login status) or for sites that push cart/product data as flat dataLayer variables."
+    ]
   }
 ]
 
@@ -194,233 +121,79 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const createArgumentsQueue = require('createArgumentsQueue');
 const injectScript = require('injectScript');
 const copyFromDataLayer = require('copyFromDataLayer');
-const copyFromWindow = require('copyFromWindow');
-const callInWindow = require('callInWindow');
 const isConsentGranted = require('isConsentGranted');
 const addConsentListener = require('addConsentListener');
-const Object = require('Object');
+const makeNumber = require('makeNumber');
 
-// Always create the wisepops queue (idempotent — safe to call on every trigger)
-createArgumentsQueue('wisepops', 'wisepops.q');
+// createArgumentsQueue returns the wisepops stub, creating it and wisepops.q
+// on first call. Idempotent — safe to invoke on every trigger.
+const wisepops = createArgumentsQueue('wisepops', 'wisepops.q');
 
-// Always inject the loader script (injectScript with cacheToken is idempotent — won't load twice)
-var loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js';
-
+// ──────────────────────────────────────────────────────────────────
+// Consent Mode
+// ──────────────────────────────────────────────────────────────────
+// Wisepops' consent model is "always load, session cookies until granted".
+// Push options BEFORE injecting the loader so the loader sees
+// defaultConsent=denied when it processes the queue.
 if (data.respectConsent) {
+  wisepops('options', { defaultConsent: 'denied' });
+
   if (isConsentGranted('personalization_storage')) {
-    injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
+    wisepops('consent', 'granted');
   } else {
-    addConsentListener('personalization_storage', function(consentType, granted) {
+    addConsentListener('personalization_storage', function (consentType, granted) {
       if (granted) {
-        injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
+        wisepops('consent', 'granted');
       }
     });
   }
-} else {
-  injectScript(loaderUrl, function() {}, function() {}, 'wisepopsLoader');
 }
 
-// Process customer data mappings
-if (data.customerMappings && data.customerMappings.length > 0) {
-  var customerProps = {};
-  for (var i = 0; i < data.customerMappings.length; i++) {
-    var mapping = data.customerMappings[i];
-    var value = copyFromDataLayer(mapping.dataLayerKey);
-    if (value !== undefined && value !== null) {
-      var parts = mapping.wisepopsProperty.split('.');
-      var obj = customerProps;
-      for (var j = 0; j < parts.length - 1; j++) {
-        if (!obj[parts[j]]) obj[parts[j]] = {};
-        obj = obj[parts[j]];
+// ──────────────────────────────────────────────────────────────────
+// Load Wisepops (idempotent via cacheToken)
+// ──────────────────────────────────────────────────────────────────
+const loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js';
+injectScript(loaderUrl, data.gtmOnSuccess, data.gtmOnFailure, 'wisepopsLoader');
+
+// ──────────────────────────────────────────────────────────────────
+// Goal tracking
+// ──────────────────────────────────────────────────────────────────
+if (data.enableGoalTracking && data.purchaseGoalHash) {
+  const eventName = copyFromDataLayer('event');
+  let shouldFire = false;
+  let revenue;
+
+  if (data.goalFormat === 'ga4') {
+    if (eventName === 'purchase') {
+      shouldFire = true;
+      const ecommerce = copyFromDataLayer('ecommerce', 2);
+      if (ecommerce && ecommerce.value !== undefined) {
+        const parsed = makeNumber(ecommerce.value);
+        if (parsed === parsed) revenue = parsed; // NaN check (NaN !== NaN)
       }
-      obj[parts[parts.length - 1]] = value;
+    }
+  } else if (data.goalFormat === 'custom') {
+    if (eventName === data.customEventName) {
+      shouldFire = true;
+      // customRevenueValue is a GTM variable reference (e.g. {{DLV - Revenue}})
+      // that GTM substitutes to a value BEFORE this code runs.
+      if (data.customRevenueValue !== undefined && data.customRevenueValue !== '') {
+        const parsed = makeNumber(data.customRevenueValue);
+        if (parsed === parsed) revenue = parsed;
+      }
     }
   }
-  if (Object.keys(customerProps).length > 0) {
-    callInWindow('wisepops', 'properties', customerProps);
-  }
-}
 
-// Ecommerce bridging (only if enabled and not on Shopify)
-if (data.enableEcommerce) {
-  var shopify = copyFromWindow('Shopify');
-  if (shopify === undefined) {
-    var eventName = copyFromDataLayer('event');
-    var ecommerce = copyFromDataLayer('ecommerce');
-
-    if (ecommerce) {
-      var format = data.ecommerceFormat;
-
-      if (format === 'ga4') {
-        handleGA4(eventName, ecommerce);
-      } else if (format === 'ua') {
-        handleUA(eventName, ecommerce);
-      } else if (format === 'custom') {
-        handleCustom(eventName, ecommerce);
-      }
+  if (shouldFire) {
+    if (revenue !== undefined) {
+      wisepops('goal', data.purchaseGoalHash, { revenue: revenue });
+    } else {
+      wisepops('goal', data.purchaseGoalHash);
     }
   }
 }
 
 data.gtmOnSuccess();
-
-function handleGA4(eventName, ecommerce) {
-  var items = ecommerce.items || [];
-
-  if (eventName === 'view_item' && data.trackProducts && items.length > 0) {
-    var item = items[0];
-    callInWindow('wisepops', 'properties', {
-      product: {
-        id: item.item_id || item.id,
-        name: item.item_name || item.name,
-        price: item.price,
-        variant: item.item_variant || item.variant,
-        brand: item.item_brand || item.brand,
-        category: item.item_category || item.category
-      }
-    }, {temporary: true});
-  }
-
-  if ((eventName === 'add_to_cart' || eventName === 'remove_from_cart' || eventName === 'view_cart') && data.trackCart) {
-    var cartItems = [];
-    var totalQty = 0;
-    for (var i = 0; i < items.length; i++) {
-      totalQty += (items[i].quantity || 1);
-      cartItems.push({
-        product_id: items[i].item_id || items[i].id,
-        variant_id: items[i].item_variant || items[i].variant,
-        sku: items[i].item_id || items[i].id,
-        price: items[i].price,
-        quantity: items[i].quantity || 1
-      });
-    }
-    callInWindow('wisepops', 'properties', {
-      cart: {
-        total_price: ecommerce.value,
-        currency: ecommerce.currency,
-        item_count: totalQty,
-        items: cartItems
-      }
-    });
-  }
-
-  if (eventName === 'purchase' && data.trackPurchases && data.purchaseGoalHash) {
-    callInWindow('wisepops', 'goal', data.purchaseGoalHash, {revenue: ecommerce.value});
-  }
-}
-
-function handleUA(eventName, ecommerce) {
-  if (data.trackProducts && ecommerce.detail && ecommerce.detail.products && ecommerce.detail.products.length > 0) {
-    var product = ecommerce.detail.products[0];
-    callInWindow('wisepops', 'properties', {
-      product: {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        variant: product.variant,
-        brand: product.brand,
-        category: product.category
-      }
-    }, {temporary: true});
-  }
-
-  if (data.trackCart) {
-    var uaProducts = null;
-    if (ecommerce.add && ecommerce.add.products) {
-      uaProducts = ecommerce.add.products;
-    } else if (ecommerce.checkout && ecommerce.checkout.products) {
-      uaProducts = ecommerce.checkout.products;
-    } else if (ecommerce.remove && ecommerce.remove.products) {
-      uaProducts = ecommerce.remove.products;
-    }
-
-    if (uaProducts && uaProducts.length > 0) {
-      var cartItems = [];
-      var totalQty = 0;
-      for (var i = 0; i < uaProducts.length; i++) {
-        totalQty += (uaProducts[i].quantity || 1);
-        cartItems.push({
-          product_id: uaProducts[i].id,
-          variant_id: uaProducts[i].variant,
-          sku: uaProducts[i].id,
-          price: uaProducts[i].price,
-          quantity: uaProducts[i].quantity || 1
-        });
-      }
-      callInWindow('wisepops', 'properties', {
-        cart: {
-          total_price: ecommerce.checkout ? (ecommerce.checkout.actionField || {}).revenue : undefined,
-          currency: ecommerce.currencyCode,
-          item_count: totalQty,
-          items: cartItems
-        }
-      });
-    }
-  }
-
-  if (data.trackPurchases && data.purchaseGoalHash && ecommerce.purchase && ecommerce.purchase.actionField) {
-    var revenue = ecommerce.purchase.actionField.revenue;
-    if (revenue !== undefined) {
-      callInWindow('wisepops', 'goal', data.purchaseGoalHash, {revenue: revenue});
-    }
-  }
-}
-
-function handleCustom(eventName, ecommerce) {
-  if (!data.customEvents || data.customEvents.length === 0) return;
-
-  for (var i = 0; i < data.customEvents.length; i++) {
-    var mapping = data.customEvents[i];
-    if (mapping.eventName !== eventName) continue;
-
-    if (mapping.action === 'product') {
-      var items = ecommerce.items || ecommerce.products ||
-        (ecommerce.detail && ecommerce.detail.products) || [];
-      if (items.length > 0) {
-        var p = items[0];
-        callInWindow('wisepops', 'properties', {
-          product: {
-            id: p.item_id || p.id || p.product_id,
-            name: p.item_name || p.name || p.title,
-            price: p.price,
-            variant: p.item_variant || p.variant,
-            brand: p.item_brand || p.brand,
-            category: p.item_category || p.category
-          }
-        }, {temporary: true});
-      }
-    } else if (mapping.action === 'cart') {
-      var cartItems = ecommerce.items || ecommerce.products || [];
-      var processedItems = [];
-      var totalQty = 0;
-      for (var j = 0; j < cartItems.length; j++) {
-        var ci = cartItems[j];
-        totalQty += (ci.quantity || 1);
-        processedItems.push({
-          product_id: ci.item_id || ci.id || ci.product_id,
-          variant_id: ci.item_variant || ci.variant || ci.variant_id,
-          sku: ci.item_id || ci.id || ci.sku,
-          price: ci.price,
-          quantity: ci.quantity || 1
-        });
-      }
-      callInWindow('wisepops', 'properties', {
-        cart: {
-          total_price: ecommerce.value || ecommerce.total || ecommerce.revenue,
-          currency: ecommerce.currency || ecommerce.currencyCode,
-          item_count: totalQty,
-          items: processedItems
-        }
-      });
-    } else if (mapping.action === 'purchase' && data.purchaseGoalHash) {
-      var rev = ecommerce.value || ecommerce.revenue ||
-        (ecommerce.purchase && ecommerce.purchase.actionField && ecommerce.purchase.actionField.revenue);
-      if (rev !== undefined) {
-        callInWindow('wisepops', 'goal', data.purchaseGoalHash, {revenue: rev});
-      }
-    }
-  }
-}
 
 
 ___WEB_PERMISSIONS___
@@ -465,21 +238,6 @@ ___WEB_PERMISSIONS___
                   { "type": 1, "string": "wisepops.q" },
                   { "type": 8, "boolean": true },
                   { "type": 8, "boolean": true },
-                  { "type": 8, "boolean": false }
-                ]
-              },
-              {
-                "type": 3,
-                "mapKey": [
-                  { "type": 1, "string": "key" },
-                  { "type": 1, "string": "read" },
-                  { "type": 1, "string": "write" },
-                  { "type": 1, "string": "execute" }
-                ],
-                "mapValue": [
-                  { "type": 1, "string": "Shopify" },
-                  { "type": 8, "boolean": true },
-                  { "type": 8, "boolean": false },
                   { "type": 8, "boolean": false }
                 ]
               }
@@ -573,124 +331,290 @@ ___WEB_PERMISSIONS___
 ___TESTS___
 
 scenarios:
-- name: Tag injects Wisepops loader script
+- name: Loader script is injected with correct URL
   code: |-
     const mockData = {
       websiteHash: 'SFX93yBSWR',
       respectConsent: false,
-      enableEcommerce: false,
-      customerMappings: [],
+      enableGoalTracking: false,
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
-    mock('createArgumentsQueue', () => {});
+    mock('createArgumentsQueue', () => function() {});
     let injectedUrl;
     mock('injectScript', (url) => { injectedUrl = url; });
     mock('copyFromDataLayer', () => undefined);
-    mock('copyFromWindow', () => undefined);
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
 
     runCode(mockData);
 
     assertThat(injectedUrl).isEqualTo('https://loader.wisepops.com/h/SFX93yBSWR/loader.js');
 
-- name: Ecommerce bridging skips on Shopify sites
+- name: Consent mode off does not push options or consent
   code: |-
     const mockData = {
       websiteHash: 'SFX93yBSWR',
       respectConsent: false,
-      enableEcommerce: true,
-      ecommerceFormat: 'ga4',
-      trackProducts: true,
-      trackCart: true,
-      trackPurchases: true,
-      purchaseGoalHash: 'abc123',
-      customerMappings: [],
+      enableGoalTracking: false,
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
-    mock('createArgumentsQueue', () => {});
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
     mock('injectScript', () => {});
-    mock('copyFromWindow', (key) => key === 'Shopify' ? {} : undefined);
     mock('copyFromDataLayer', () => undefined);
-    let propertiesCalled = false;
-    mock('callInWindow', () => { propertiesCalled = true; });
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
 
     runCode(mockData);
 
-    assertThat(propertiesCalled).isFalse();
+    const hasOptionsCall = queueCalls.some(function(c) { return c[0] === 'options'; });
+    const hasConsentCall = queueCalls.some(function(c) { return c[0] === 'consent'; });
+    assertThat(hasOptionsCall).isFalse();
+    assertThat(hasConsentCall).isFalse();
 
-- name: GA4 view_item sets product properties
+- name: Consent mode on with already granted pushes options and consent granted
+  code: |-
+    const mockData = {
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: true,
+      enableGoalTracking: false,
+      gtmOnSuccess: () => {},
+      gtmOnFailure: () => {}
+    };
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
+    mock('injectScript', () => {});
+    mock('copyFromDataLayer', () => undefined);
+    mock('isConsentGranted', (type) => type === 'personalization_storage');
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
+
+    runCode(mockData);
+
+    const optionsCall = queueCalls.find(function(c) { return c[0] === 'options'; });
+    const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    assertThat(optionsCall).isDefined();
+    assertThat(optionsCall[1].defaultConsent).isEqualTo('denied');
+    assertThat(consentCall).isDefined();
+    assertThat(consentCall[1]).isEqualTo('granted');
+
+- name: Consent mode on not yet granted pushes options and registers listener
+  code: |-
+    const mockData = {
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: true,
+      enableGoalTracking: false,
+      gtmOnSuccess: () => {},
+      gtmOnFailure: () => {}
+    };
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
+    mock('injectScript', () => {});
+    mock('copyFromDataLayer', () => undefined);
+    mock('isConsentGranted', () => false);
+    let listenerRegistered = false;
+    mock('addConsentListener', (type, callback) => {
+      if (type === 'personalization_storage') listenerRegistered = true;
+    });
+    mock('makeNumber', (v) => parseFloat(v));
+
+    runCode(mockData);
+
+    const optionsCall = queueCalls.find(function(c) { return c[0] === 'options'; });
+    const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    assertThat(optionsCall).isDefined();
+    assertThat(listenerRegistered).isTrue();
+    assertThat(consentCall).isUndefined();
+
+- name: Consent listener fires consent granted when consent flips
+  code: |-
+    const mockData = {
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: true,
+      enableGoalTracking: false,
+      gtmOnSuccess: () => {},
+      gtmOnFailure: () => {}
+    };
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
+    mock('injectScript', () => {});
+    mock('copyFromDataLayer', () => undefined);
+    mock('isConsentGranted', () => false);
+    let storedCallback;
+    mock('addConsentListener', (type, callback) => { storedCallback = callback; });
+    mock('makeNumber', (v) => parseFloat(v));
+
+    runCode(mockData);
+
+    // Simulate consent being granted later
+    storedCallback('personalization_storage', true);
+
+    const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    assertThat(consentCall).isDefined();
+    assertThat(consentCall[1]).isEqualTo('granted');
+
+- name: Goal tracking off does not push any goal call
   code: |-
     const mockData = {
       websiteHash: 'SFX93yBSWR',
       respectConsent: false,
-      enableEcommerce: true,
-      ecommerceFormat: 'ga4',
-      trackProducts: true,
-      trackCart: true,
-      trackPurchases: false,
-      customerMappings: [],
+      enableGoalTracking: false,
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
-    mock('createArgumentsQueue', () => {});
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
     mock('injectScript', () => {});
-    mock('copyFromWindow', () => undefined);
+    mock('copyFromDataLayer', (key) => key === 'event' ? 'purchase' : undefined);
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
+
+    runCode(mockData);
+
+    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    assertThat(goalCall).isUndefined();
+
+- name: GA4 purchase event fires goal with revenue
+  code: |-
+    const mockData = {
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: false,
+      enableGoalTracking: true,
+      goalFormat: 'ga4',
+      purchaseGoalHash: 'abcdef0123456789abcdef0123456789',
+      gtmOnSuccess: () => {},
+      gtmOnFailure: () => {}
+    };
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
+    mock('injectScript', () => {});
+    mock('copyFromDataLayer', (key, version) => {
+      if (key === 'event') return 'purchase';
+      if (key === 'ecommerce') return { value: 99.99, currency: 'EUR' };
+      return undefined;
+    });
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
+
+    runCode(mockData);
+
+    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    assertThat(goalCall).isDefined();
+    assertThat(goalCall[1]).isEqualTo('abcdef0123456789abcdef0123456789');
+    assertThat(goalCall[2].revenue).isEqualTo(99.99);
+
+- name: GA4 non-purchase event does not fire goal
+  code: |-
+    const mockData = {
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: false,
+      enableGoalTracking: true,
+      goalFormat: 'ga4',
+      purchaseGoalHash: 'abcdef0123456789abcdef0123456789',
+      gtmOnSuccess: () => {},
+      gtmOnFailure: () => {}
+    };
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
+    mock('injectScript', () => {});
     mock('copyFromDataLayer', (key) => {
       if (key === 'event') return 'view_item';
-      if (key === 'ecommerce') return {
-        items: [{ item_id: 'SKU123', item_name: 'Test Product', price: 29.99, item_brand: 'TestBrand' }]
-      };
+      if (key === 'ecommerce') return { items: [] };
       return undefined;
     });
-    let calledArgs;
-    mock('callInWindow', function() { calledArgs = arguments; });
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
 
     runCode(mockData);
 
-    assertThat(calledArgs[1]).isEqualTo('properties');
-    assertThat(calledArgs[2].product.id).isEqualTo('SKU123');
-    assertThat(calledArgs[2].product.price).isEqualTo(29.99);
+    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    assertThat(goalCall).isUndefined();
 
-- name: GA4 purchase fires goal with revenue
+- name: Custom event matching fires goal with DLV-substituted revenue
   code: |-
     const mockData = {
       websiteHash: 'SFX93yBSWR',
       respectConsent: false,
-      enableEcommerce: true,
-      ecommerceFormat: 'ga4',
-      trackProducts: false,
-      trackCart: false,
-      trackPurchases: true,
-      purchaseGoalHash: 'goalHash123456789012345678901234',
-      customerMappings: [],
+      enableGoalTracking: true,
+      goalFormat: 'custom',
+      purchaseGoalHash: 'abcdef0123456789abcdef0123456789',
+      customEventName: 'order_complete',
+      customRevenueValue: '42.5',
       gtmOnSuccess: () => {},
       gtmOnFailure: () => {}
     };
-    mock('createArgumentsQueue', () => {});
-    mock('injectScript', () => {});
-    mock('copyFromWindow', () => undefined);
-    mock('copyFromDataLayer', (key) => {
-      if (key === 'event') return 'purchase';
-      if (key === 'ecommerce') return { value: 99.99, currency: 'EUR', transaction_id: 'T123' };
-      return undefined;
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
     });
-    let goalArgs;
-    mock('callInWindow', function() { goalArgs = arguments; });
+    mock('injectScript', () => {});
+    mock('copyFromDataLayer', (key) => key === 'event' ? 'order_complete' : undefined);
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
 
     runCode(mockData);
 
-    assertThat(goalArgs[1]).isEqualTo('goal');
-    assertThat(goalArgs[2]).isEqualTo('goalHash123456789012345678901234');
-    assertThat(goalArgs[3].revenue).isEqualTo(99.99);
+    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    assertThat(goalCall).isDefined();
+    assertThat(goalCall[1]).isEqualTo('abcdef0123456789abcdef0123456789');
+    assertThat(goalCall[2].revenue).isEqualTo(42.5);
+
+- name: Custom event non-matching does not fire goal
+  code: |-
+    const mockData = {
+      websiteHash: 'SFX93yBSWR',
+      respectConsent: false,
+      enableGoalTracking: true,
+      goalFormat: 'custom',
+      purchaseGoalHash: 'abcdef0123456789abcdef0123456789',
+      customEventName: 'order_complete',
+      customRevenueValue: '42.5',
+      gtmOnSuccess: () => {},
+      gtmOnFailure: () => {}
+    };
+    const queueCalls = [];
+    mock('createArgumentsQueue', () => function() {
+      queueCalls.push(Array.prototype.slice.call(arguments));
+    });
+    mock('injectScript', () => {});
+    mock('copyFromDataLayer', (key) => key === 'event' ? 'something_else' : undefined);
+    mock('isConsentGranted', () => false);
+    mock('addConsentListener', () => {});
+    mock('makeNumber', (v) => parseFloat(v));
+
+    runCode(mockData);
+
+    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    assertThat(goalCall).isUndefined();
 
 
 ___NOTES___
 
-Wisepops GTM Community Template
-- Single tag: always loads Wisepops + optionally bridges ecommerce data
-- Customer adds one tag with All Pages trigger + ecommerce event triggers
-- Ecommerce bridge: maps GA4/UA/Custom ecommerce events to Wisepops properties and goals
-- Consent Mode v2: respects personalization_storage when enabled
-- Shopify safeguard: ecommerce bridging is a no-op on Shopify sites (native integration takes priority)
-- injectScript with cacheToken is idempotent — safe to fire on every trigger without loading twice
+Wisepops GTM Community Template (simplified v1)
+- Four fields: websiteHash, respectConsent, enableGoalTracking, goalGroup (goalFormat / purchaseGoalHash / customEventName / customRevenueValue)
+- Always loads Wisepops via injectScript (idempotent via cacheToken 'wisepopsLoader')
+- Consent Mode v2: Wisepops loads always; defaultConsent=denied + listener grants on personalization_storage
+- Two goal formats: GA4 Ecommerce (hardcoded 'purchase' event + ecommerce.value) or Custom (user-supplied event name + GTM variable reference for revenue)
+- No product/cart property bridging, no customer data mapping table, no Shopify safeguard (no custom properties are written)
