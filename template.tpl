@@ -85,7 +85,8 @@ ___TEMPLATE_PARAMETERS___
         "simpleValueType": true,
         "help": "The 32-character goal hash from Wisepops \u2192 Integrations \u2192 Google Tag Manager.",
         "valueValidators": [
-          { "type": "NON_EMPTY" }
+          { "type": "NON_EMPTY" },
+          { "type": "REGEX", "args": ["^[a-zA-Z0-9]{32}$"] }
         ]
       },
       {
@@ -192,8 +193,7 @@ if (data.enableGoalTracking && data.purchaseGoalHash) {
     }
   }
 }
-
-data.gtmOnSuccess();
+// NO trailing data.gtmOnSuccess() call — injectScript's callback signals success.
 
 
 ___WEB_PERMISSIONS___
@@ -399,12 +399,13 @@ scenarios:
 
     runCode(mockData);
 
-    const optionsCall = queueCalls.find(function(c) { return c[0] === 'options'; });
-    const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
-    assertThat(optionsCall).isDefined();
-    assertThat(optionsCall[1].defaultConsent).isEqualTo('denied');
-    assertThat(consentCall).isDefined();
-    assertThat(consentCall[1]).isEqualTo('granted');
+    const optionsIdx = queueCalls.indexOf(queueCalls.find(function(c) { return c[0] === 'options'; }));
+    const consentIdx = queueCalls.indexOf(queueCalls.find(function(c) { return c[0] === 'consent'; }));
+    assertThat(optionsIdx).isGreaterThan(-1);
+    assertThat(consentIdx).isGreaterThan(-1);
+    assertThat(optionsIdx).isLessThan(consentIdx);
+    assertThat(queueCalls[optionsIdx][1].defaultConsent).isEqualTo('denied');
+    assertThat(queueCalls[consentIdx][1]).isEqualTo('granted');
 
 - name: Consent mode on not yet granted pushes options and registers listener
   code: |-
@@ -458,9 +459,14 @@ scenarios:
 
     runCode(mockData);
 
+    // Before listener fires: consent granted should NOT be in the queue
+    const beforeCallback = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    assertThat(beforeCallback).isUndefined();
+
     // Simulate consent being granted later
     storedCallback('personalization_storage', true);
 
+    // After listener fires: consent granted should now be in the queue
     const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
     assertThat(consentCall).isDefined();
     assertThat(consentCall[1]).isEqualTo('granted');
