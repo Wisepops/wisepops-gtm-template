@@ -3,5 +3,5 @@ documentation: "https://support.wisepops.com/article/gtm-integration"
 versions:
   - sha: 371693b8b321ca58b62d476a84c22785ee7d75ca
     changeNotes: "Initial release: setup tag with consent mode v2, ecommerce bridge (GA4/UA/Custom), customer data mapping"
-  - sha: 661121acffa2d5b6886bc8bb284a0ca01f67d731
+  - sha: 8a98a57a2ba9aa5ecbb02f57fb08320162ba22af
     changeNotes: "Simplified v1: 4-field UI (website hash, consent mode, goal tracking with GA4 or custom event). Removed customer data mapping, UA format, and cart/product property bridging. Corrected consent mode to use Wisepops default-denied / grant-on-consent API."
