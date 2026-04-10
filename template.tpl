@@ -346,7 +346,7 @@ scenarios:
     mock('copyFromDataLayer', () => undefined);
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -369,7 +369,7 @@ scenarios:
     mock('copyFromDataLayer', () => undefined);
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -395,7 +395,7 @@ scenarios:
     mock('copyFromDataLayer', () => undefined);
     mock('isConsentGranted', (type) => type === 'personalization_storage');
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -427,7 +427,7 @@ scenarios:
     mock('addConsentListener', (type, callback) => {
       if (type === 'personalization_storage') listenerRegistered = true;
     });
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -455,7 +455,7 @@ scenarios:
     mock('isConsentGranted', () => false);
     let storedCallback;
     mock('addConsentListener', (type, callback) => { storedCallback = callback; });
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -488,7 +488,7 @@ scenarios:
     mock('copyFromDataLayer', (key) => key === 'event' ? 'purchase' : undefined);
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -518,7 +518,7 @@ scenarios:
     });
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -550,7 +550,7 @@ scenarios:
     });
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -578,7 +578,7 @@ scenarios:
     mock('copyFromDataLayer', (key) => key === 'event' ? 'order_complete' : undefined);
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
@@ -608,7 +608,7 @@ scenarios:
     mock('copyFromDataLayer', (key) => key === 'event' ? 'something_else' : undefined);
     mock('isConsentGranted', () => false);
     mock('addConsentListener', () => {});
-    mock('makeNumber', (v) => parseFloat(v));
+    mock('makeNumber', (v) => v - 0);
 
     runCode(mockData);
 
