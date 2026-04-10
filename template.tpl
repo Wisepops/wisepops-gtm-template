@@ -407,8 +407,8 @@ scenarios:
 
     runCode(mockData);
 
-    const optionsIdx = queueCalls.indexOf(queueCalls.find(function(c) { return c[0] === 'options'; }));
-    const consentIdx = queueCalls.indexOf(queueCalls.find(function(c) { return c[0] === 'consent'; }));
+    const optionsIdx = queueCalls.indexOf(queueCalls.filter(function(c) { return c[0] === 'options'; })[0]);
+    const consentIdx = queueCalls.indexOf(queueCalls.filter(function(c) { return c[0] === 'consent'; })[0]);
     assertThat(optionsIdx).isGreaterThan(-1);
     assertThat(consentIdx).isGreaterThan(-1);
     assertThat(optionsIdx).isLessThan(consentIdx);
@@ -443,8 +443,8 @@ scenarios:
 
     runCode(mockData);
 
-    const optionsCall = queueCalls.find(function(c) { return c[0] === 'options'; });
-    const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    const optionsCall = queueCalls.filter(function(c) { return c[0] === 'options'; })[0];
+    const consentCall = queueCalls.filter(function(c) { return c[0] === 'consent'; })[0];
     assertThat(optionsCall).isDefined();
     assertThat(listenerRegistered).isTrue();
     assertThat(consentCall).isUndefined();
@@ -476,14 +476,14 @@ scenarios:
     runCode(mockData);
 
     // Before listener fires: consent granted should NOT be in the queue
-    const beforeCallback = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    const beforeCallback = queueCalls.filter(function(c) { return c[0] === 'consent'; })[0];
     assertThat(beforeCallback).isUndefined();
 
     // Simulate consent being granted later
     storedCallback('personalization_storage', true);
 
     // After listener fires: consent granted should now be in the queue
-    const consentCall = queueCalls.find(function(c) { return c[0] === 'consent'; });
+    const consentCall = queueCalls.filter(function(c) { return c[0] === 'consent'; })[0];
     assertThat(consentCall).isDefined();
     assertThat(consentCall[1]).isEqualTo('granted');
 
@@ -512,7 +512,7 @@ scenarios:
 
     runCode(mockData);
 
-    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    const goalCall = queueCalls.filter(function(c) { return c[0] === 'goal'; })[0];
     assertThat(goalCall).isUndefined();
 
 - name: GA4 purchase event fires goal with revenue
@@ -546,7 +546,7 @@ scenarios:
 
     runCode(mockData);
 
-    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    const goalCall = queueCalls.filter(function(c) { return c[0] === 'goal'; })[0];
     assertThat(goalCall).isDefined();
     assertThat(goalCall[1]).isEqualTo('abcdef0123456789abcdef0123456789');
     assertThat(goalCall[2].revenue).isEqualTo(99.99);
@@ -582,7 +582,7 @@ scenarios:
 
     runCode(mockData);
 
-    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    const goalCall = queueCalls.filter(function(c) { return c[0] === 'goal'; })[0];
     assertThat(goalCall).isUndefined();
 
 - name: Custom event matching fires goal with DLV-substituted revenue
@@ -614,7 +614,7 @@ scenarios:
 
     runCode(mockData);
 
-    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    const goalCall = queueCalls.filter(function(c) { return c[0] === 'goal'; })[0];
     assertThat(goalCall).isDefined();
     assertThat(goalCall[1]).isEqualTo('abcdef0123456789abcdef0123456789');
     assertThat(goalCall[2].revenue).isEqualTo(42.5);
@@ -648,7 +648,7 @@ scenarios:
 
     runCode(mockData);
 
-    const goalCall = queueCalls.find(function(c) { return c[0] === 'goal'; });
+    const goalCall = queueCalls.filter(function(c) { return c[0] === 'goal'; })[0];
     assertThat(goalCall).isUndefined();
 
 
