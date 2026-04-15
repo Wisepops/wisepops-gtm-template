@@ -307,7 +307,7 @@ ___WEB_PERMISSIONS___
 ___TESTS___
 
 scenarios:
-- name: "Page View: loader script is injected with correct URL"
+- name: "Page View - loader script is injected with correct URL"
   code: |-
     const mockData = {
       tagType: 'pageview',
@@ -326,7 +326,7 @@ scenarios:
 
     assertThat(injectedUrl).isEqualTo('https://loader.wisepops.com/h/SFX93yBSWR/loader.js');
 
-- name: "Page View: consent mode off does not push options or consent"
+- name: "Page View - consent mode off does not push options or consent"
   code: |-
     const mockData = {
       tagType: 'pageview',
@@ -354,7 +354,7 @@ scenarios:
     assertThat(hasOptionsCall).isFalse();
     assertThat(hasConsentCall).isFalse();
 
-- name: "Page View: consent mode on with already granted pushes options then consent"
+- name: "Page View - consent mode on with already granted pushes options then consent"
   code: |-
     const mockData = {
       tagType: 'pageview',
@@ -385,7 +385,7 @@ scenarios:
     assertThat(queueCalls[optionsIdx][1].defaultConsent).isEqualTo('denied');
     assertThat(queueCalls[consentIdx][1]).isEqualTo('granted');
 
-- name: "Page View: consent mode on not yet granted registers listener"
+- name: "Page View - consent mode on not yet granted registers listener"
   code: |-
     const mockData = {
       tagType: 'pageview',
@@ -417,7 +417,7 @@ scenarios:
     assertThat(listenerRegistered).isTrue();
     assertThat(consentCall).isUndefined();
 
-- name: "Page View: consent listener fires consent granted"
+- name: "Page View - consent listener fires consent granted"
   code: |-
     const mockData = {
       tagType: 'pageview',
@@ -450,7 +450,7 @@ scenarios:
     assertThat(consentCall).isDefined();
     assertThat(consentCall[1]).isEqualTo('granted');
 
-- name: "Conversion Goal: GA4 revenue fires goal with ecommerce.value"
+- name: "Conversion Goal - GA4 revenue fires goal with ecommerce.value"
   code: |-
     const mockData = {
       tagType: 'goal',
@@ -480,7 +480,7 @@ scenarios:
     assertThat(goalCall[1]).isEqualTo('abcdef0123456789abcdef0123456789');
     assertThat(goalCall[2].revenue).isEqualTo(99.99);
 
-- name: "Conversion Goal: GA4 no ecommerce value fires goal without revenue"
+- name: "Conversion Goal - GA4 no ecommerce value fires goal without revenue"
   code: |-
     const mockData = {
       tagType: 'goal',
@@ -507,7 +507,7 @@ scenarios:
     assertThat(goalCall[1]).isEqualTo('abcdef0123456789abcdef0123456789');
     assertThat(goalCall.length).isEqualTo(2);
 
-- name: "Conversion Goal: GTM Variable revenue fires goal with value"
+- name: "Conversion Goal - GTM Variable revenue fires goal with value"
   code: |-
     const mockData = {
       tagType: 'goal',
@@ -534,7 +534,7 @@ scenarios:
     assertThat(goalCall).isDefined();
     assertThat(goalCall[2].revenue).isEqualTo(42.5);
 
-- name: "Conversion Goal: empty revenue variable fires goal without revenue"
+- name: "Conversion Goal - empty revenue variable fires goal without revenue"
   code: |-
     const mockData = {
       tagType: 'goal',
@@ -561,7 +561,7 @@ scenarios:
     assertThat(goalCall).isDefined();
     assertThat(goalCall.length).isEqualTo(2);
 
-- name: "Conversion Goal: goal always fires regardless of event name"
+- name: "Conversion Goal - goal always fires regardless of event name"
   code: |-
     const mockData = {
       tagType: 'goal',
@@ -596,8 +596,8 @@ ___NOTES___
 
 Wisepops GTM Community Template (multi-tag v1)
 - Tag Type dropdown: "Page View" loads Wisepops, "Conversion Goal" fires a goal
-- Page View: createArgumentsQueue + injectScript (idempotent via cacheToken 'wisepopsLoader') + optional consent mode
-- Conversion Goal: createArgumentsQueue (idempotent) + wisepops('goal', hash, {revenue}) — no script injection, just queue push
+- Page View - createArgumentsQueue + injectScript (idempotent via cacheToken 'wisepopsLoader') + optional consent mode
+- Conversion Goal - createArgumentsQueue (idempotent) + wisepops('goal', hash, {revenue}) — no script injection, just queue push
 - Consent Mode v2: Wisepops loads always; defaultConsent=denied + listener grants on personalization_storage
 - Revenue: GA4 Ecommerce reads ecommerce.value automatically; GTM Variable accepts any {{variable}} reference
 - No event-name matching — GTM triggers control when each tag fires
