@@ -137,7 +137,7 @@ if (data.tagType === 'pageview') {
     }
   }
 
-  var loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js';
+  var loaderUrl = 'https://loader.wisepops.com/h/' + data.websiteHash + '/loader.js?v=3';
   injectScript(loaderUrl, data.gtmOnSuccess, data.gtmOnFailure, 'wisepopsLoader');
 
 } else if (data.tagType === 'goal') {
@@ -324,7 +324,7 @@ scenarios:
 
     runCode(mockData);
 
-    assertThat(injectedUrl).isEqualTo('https://loader.wisepops.com/h/SFX93yBSWR/loader.js');
+    assertThat(injectedUrl).isEqualTo('https://loader.wisepops.com/h/SFX93yBSWR/loader.js?v=3');
 
 - name: "Page View - consent mode off does not push options or consent"
   code: |-
