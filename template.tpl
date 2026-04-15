@@ -450,7 +450,7 @@ scenarios:
     assertThat(consentCall).isDefined();
     assertThat(consentCall[1]).isEqualTo('granted');
 
-- name: "Conversion Goal - GA4 revenue fires goal with ecommerce.value"
+- name: "Conversion Goal - GA4 revenue fires goal with ecommerce value"
   code: |-
     const mockData = {
       tagType: 'goal',
