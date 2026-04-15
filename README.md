@@ -4,37 +4,42 @@ Google Tag Manager community template for [Wisepops](https://wisepops.com) — p
 
 ## Features
 
-- **One tag loads Wisepops** — idempotent, safe to attach to multiple triggers
-- **Conversion goal tracking** — GA4 `purchase` event or custom event with a user-configurable revenue variable
+- **Multi-tag pattern** — one tag per action, following GTM best practices (like Pinterest, TikTok, GA4)
+- **Page View tag** — loads Wisepops on every page, with optional Consent Mode v2 support
+- **Conversion Goal tag** — tracks a conversion goal with revenue from GA4 Ecommerce or any GTM variable
 - **GTM Consent Mode v2** — respects `personalization_storage` using Wisepops' documented default-denied / grant-on-consent API
 
 ## Setup
 
-### 1. Add the Wisepops tag
+### 1. Create a Page View tag
 
 1. In GTM, go to **Tags** → **New** → **Tag Configuration** → **Community Template Gallery**
 2. Search for "Wisepops" and add the template
-3. Enter your **Website Hash** (find it in Wisepops → Integrations → Google Tag Manager)
-4. Set the trigger to **All Pages**
+3. Set **Tag Type** to **Page View**
+4. Enter your **Website Hash** (find it in Wisepops → Integrations → Google Tag Manager)
+5. Set the trigger to **All Pages**
 
-### 2. (Optional) Track conversions
+### 2. (Optional) Create a Conversion Goal tag
 
-1. Check **Track a conversion goal**
-2. Paste the **Goal Hash** from Wisepops → Integrations → Google Tag Manager
-3. Choose an **Event format**:
-   - **GA4 Ecommerce (purchase)** — no extra config; reads revenue from `ecommerce.value` on the `purchase` event
-   - **Custom event** — enter your event name (e.g. `order_complete`) and reference a Data Layer Variable for revenue, e.g. `{{DLV - Revenue}}`
-4. In addition to the All Pages trigger, attach your purchase (or equivalent) event trigger to the tag
+1. Create another **New** tag using the same Wisepops template
+2. Set **Tag Type** to **Conversion Goal**
+3. Paste the **Goal Hash** from Wisepops → Integrations → Google Tag Manager
+4. Choose a **Revenue source**:
+   - **GA4 Ecommerce (automatic)** — reads revenue from `ecommerce.value` on the triggering event
+   - **GTM Variable** — reference any GTM variable, e.g. `{{Revenue}}`
+5. Set the trigger to your conversion event (e.g. a Custom Event trigger for `purchase`)
+
+You can create multiple Conversion Goal tags with different goal hashes and triggers to track different conversions.
 
 ### 3. (Optional) Respect Consent Mode
 
-Check **Respect GTM Consent Mode**. When enabled, Wisepops loads immediately but uses session-only cookies until `personalization_storage` is granted. When consent is granted (either on page load or later via a CMP interaction), Wisepops switches to persistent cookies.
+On the Page View tag, check **Respect GTM Consent Mode**. When enabled, Wisepops loads immediately but uses session-only cookies until `personalization_storage` is granted. When consent is granted, Wisepops switches to persistent cookies.
 
 ### 4. Publish your GTM container
 
-## GA4 Ecommerce Format
+## GA4 Ecommerce Revenue
 
-The GA4 format fires the goal when a `purchase` event is pushed to the dataLayer. Revenue comes from `ecommerce.value`:
+The GA4 Ecommerce revenue source reads `ecommerce.value` from the triggering event's dataLayer push:
 
 ```js
 dataLayer.push({
@@ -48,12 +53,9 @@ dataLayer.push({
 });
 ```
 
-## Custom Format
+## GTM Variable Revenue
 
-Use this format if your site does not use GA4 ecommerce (including UA Enhanced Ecommerce legacy sites). You supply:
-
-- **Event name** — the dataLayer event that fires the goal, e.g. `order_complete`
-- **Revenue value** (optional) — a GTM Data Layer Variable reference like `{{DLV - Revenue}}`. Create a DLV pointing at whatever path in your dataLayer holds the revenue (e.g. `ecommerce.purchase.actionField.revenue` or `orderTotal`), then reference it here.
+Use this if your site does not use GA4 ecommerce, or if revenue is in a non-standard location. Create a GTM variable (Data Layer Variable, JavaScript Variable, DOM Element, etc.) that resolves to the revenue number, then reference it as `{{Variable Name}}` in the Revenue value field.
 
 ## License
 
