@@ -3,5 +3,5 @@ documentation: "https://support.wisepops.com/article/gtm-integration"
 versions:
   - sha: 371693b8b321ca58b62d476a84c22785ee7d75ca
     changeNotes: "Initial release: setup tag with consent mode v2, ecommerce bridge (GA4/UA/Custom), customer data mapping"
-  - sha: ab1d24ef637dd11c68a1bf6f470216a15a37a235
+  - sha: 24816f34ef827a772ee39de4270af2e9515581a5
     changeNotes: "Multi-tag v1: Tag Type dropdown (Page View / Conversion Goal). Page View loads Wisepops with optional consent mode. Conversion Goal fires a goal with revenue from GA4 ecommerce or GTM variable. One tag per action, following GTM best practices."
